@@ -1,8 +1,44 @@
 /**
-*  Returns true if it is indeed o's turn
-*/
+ * Combinations of indices that correspond to a win
+ */
+
+const WINNING = [
+  /* horizontally */
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+
+  /* vertically */
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+
+  /* diagonally */
+  [0, 4, 8],
+  [2, 4, 6]
+];
+
+/**
+ *  Returns true if it is indeed o's turn
+ */
 
 function isItOsTurn(board) {
+  // capture 'o' and 'x' indices from the board
+  var oxindices = [].reduce.call(board, function(prev, curr, i) {
+    if ('o' === curr) prev[0].push(i);
+    if ('x' === curr) prev[1].push(i);
+    return prev;
+  }, [[], []]);
+
+  // has someone already won?
+  for (var i = 0; i < WINNING.length; i++) {
+    var winningMove = WINNING[i];
+    var oWon = winningMove[0] === oxindices[0][0] && winningMove[1] === oxindices[0][1] && winningMove[2] === oxindices[0][2];
+    var xWon = winningMove[0] === oxindices[1][0] && winningMove[1] === oxindices[1][1] && winningMove[2] === oxindices[1][2];
+
+    if (oWon || xWon) return false;
+  }
+
   // count no, of o's and x's
   var oxcounts = [].reduce.call(board, function(prev, curr) {
     if ('o' === curr) prev[0] += 1;
@@ -12,15 +48,15 @@ function isItOsTurn(board) {
 
   if (
     oxcounts[0] === oxcounts[1] ||
-    (oxcounts[0] + 1) === oxcounts[1]
+      (oxcounts[0] + 1) === oxcounts[1]
   ) return true;
 
   return false;
 }
 
 /**
-* Returns true only if the board is valid
-*/
+ * Returns true only if the board is valid
+ */
 
 function validateBoard(board) {
   // board should exist and have only 9 characters
@@ -38,8 +74,8 @@ function validateBoard(board) {
 
     if (
       currentChar !== 'o' &&
-      currentChar !== 'x' &&
-      currentChar !== ' '
+        currentChar !== 'x' &&
+        currentChar !== ' '
     ) return false;
   }
 
@@ -50,8 +86,8 @@ function validateBoard(board) {
 }
 
 /**
-* Return a random white space index from the given board
-*/
+ * Return a random white space index from the given board
+ */
 
 function getRandomWhiteSpaceIndex(board) {
   // get a list of white space indices
