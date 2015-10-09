@@ -49,7 +49,24 @@ function validateBoard(board) {
   return true;
 }
 
+/**
+* Return a random white space index from the given board
+*/
+
+function getRandomWhiteSpaceIndex(board) {
+  // get a list of white space indices
+  var whiteSpaceIndices = [].map.call(board, function(char, index) {
+    if (' ' === char) return index;
+    return -1;
+  }).filter(function(wsIndex) {
+    return -1 !== wsIndex;
+  });
+
+  return whiteSpaceIndices[~~(Math.random() * 10) % whiteSpaceIndices.length];
+}
+
 module.exports = {
   isItOsTurn: isItOsTurn,
-  validateBoard: validateBoard
+  validateBoard: validateBoard,
+  getRandomWhiteSpaceIndex: getRandomWhiteSpaceIndex
 }
