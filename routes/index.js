@@ -27,8 +27,8 @@ function isItOsTurn(board) {
 */
 
 function validateBoard(board) {
-  // board should have only 9 characters
-  if (9 !== board.length) return false;
+  // board should exist and have only 9 characters
+  if (!board || 9 !== board.length) return false;
 
   // game should NOT be complete
   // board should still have atleast one whitespace
